@@ -114,13 +114,12 @@ class Score:
             # 谱面没定数或者定数小于等于0被视作Unrank
             return -1
 
-        if score >= 10000000:
-            ptt = defnum + 2
-        elif score < 9800000:
-            ptt = defnum + (score-9500000) / 300000
-            ptt = max(ptt, 0)
+        if score >= 9900000:
+            ptt = defnum + 1
+        elif 9000000 <= score < 9900000:
+            ptt = (score - 9000000) / 9000000 * (defnum + 1)
         else:
-            ptt = defnum + 1 + (score-9800000) / 200000
+            ptt = 0
 
         return ptt
 
@@ -532,8 +531,8 @@ class Potential:
 
     @property
     def best_30(self) -> float:
-        '''获取用户best30的总潜力值'''
-        self.c.execute('''select rating from best_score where user_id = :a order by rating DESC limit 30''', {
+        '''获取用户best30的总潜力值，活动中为best15'''
+        self.c.execute('''select rating from best_score where user_id = :a order by rating DESC limit 15''', {
             'a': self.user.user_id})
         return sum(x[0] for x in self.c.fetchall())
 
