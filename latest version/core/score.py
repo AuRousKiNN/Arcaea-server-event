@@ -117,7 +117,7 @@ class Score:
         if score >= 9900000:
             ptt = defnum + 1
         elif 9000000 <= score < 9900000:
-            ptt = (score - 9000000) / 9000000 * (defnum + 1)
+            ptt = ((defnum + 1) / 900000) * (score - 9000000)
         else:
             ptt = 0
 
