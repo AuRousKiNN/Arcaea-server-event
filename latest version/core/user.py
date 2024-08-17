@@ -634,13 +634,13 @@ class UserInfo(User):
     @property
     def global_rank(self) -> int:
         '''用户世界排名，如果超过设定最大值，返回0'''
-        if self.world_rank_score is None:
-            self.select_user_one_column('world_rank_score', 0)
-            if self.world_rank_score is None:
+        if self.rating_ptt is None:
+            self.select_user_one_column('rating_ptt', 0)
+            if self.rating_ptt is None:
                 return 0
 
         self.c.execute(
-            '''select count(*) from user where world_rank_score > ?''', (self.world_rank_score,))
+            '''select count(*) from user where rating_ptt > ?''', (self.rating_ptt,))
         y = self.c.fetchone()
         if y and y[0] + 1 <= Config.WORLD_RANK_MAX:
             return y[0] + 1
